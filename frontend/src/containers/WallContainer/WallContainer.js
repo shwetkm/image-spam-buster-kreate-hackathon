@@ -1,13 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import { Upload, Button, Icon, Row, Col, Input, Card, Select } from 'antd';
+import { Upload, Icon, Row, Col, Card, message } from 'antd';
 
 class WallContainer extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             url: '',
-            urlPrefix: 'http://',
             loading: false,
             file: null,
         };
@@ -17,16 +16,11 @@ class WallContainer extends React.PureComponent {
         this.setState({ url: e.target.value });
     };
 
-    changeUrlPrefix = (value) => {
-        this.setState({ urlPrefix: value });
-    };
-
     handleDownloadClick = () => {
-        const { loading, url, urlPrefix } = this.state;
-        if (!loading && url && urlPrefix) {
-            const finalUrl = url + urlPrefix;
+        const { loading, url } = this.state;
+        if (!loading && url) {
             this.setState({ loading: true }, () => {
-                this.download(finalUrl);
+                this.downloadFileFromUrl(url);
             });
         }
     };
@@ -36,18 +30,34 @@ class WallContainer extends React.PureComponent {
             .then((response) => {
                 console.log('file download', response);
                 this.setState({
-                    file: response,
+                    file: response.data,
+                    loading: false,
                 });
             })
             .catch((error) => {
                 console.error(error);
+                this.setState({ loading: false });
             });
+    };
+
+    onChangeFile = (info) => {
+        const { status } = info.file;
+        if (status !== 'uploading') {
+            this.setState({ loading: true });
+        }
+        if (status === 'done') {
+            this.setState({ loading: false });
+            message.success(`${info.file.name} file uploaded successfully.`);
+        } else if (status === 'error') {
+            this.setState({ loading: false });
+            message.error(`${info.file.name} file upload failed.`);
+        }
     };
 
     render() {
         const {
             url,
-            urlPrefix,
+            file,
             loading,
         } = this.state;
         console.log('state', this.state);
@@ -55,40 +65,20 @@ class WallContainer extends React.PureComponent {
             <div style={{ padding: '5em' }}>
                 <Card>
                     <Row>
-                        <Col span={6}>
-                            <Input
-                                value={url}
-                                addonBefore={
-                                    <Select style={{ width: 90 }} onChange={this.changeUrlPrefix} value={urlPrefix}>
-                                        <Select.Option value="http://">http://</Select.Option>
-                                        <Select.Option value="https://">https://</Select.Option>
-                                    </Select>
-                                }
-                                addonAfter={
-                                    <Button
-                                        type="primary"
-                                        loading={loading}
-                                        onClick={this.handleDownloadClick}
-                                    >
-                                        Download
-                                    </Button>
-                                }
-                                onChange={this.handleChangeUrl}
-                            />
-                        </Col>
-                        <Col offset={1} span={1}>Or</Col>
-                        <Col span={5}>
-                            <Upload
+                        <Col span={10}>
+                            <Upload.Dragger
                                 listType="picture"
+                                name="file"
+                                multiple
+                                action=""
+                                onChange={this.onChangeFile}
                             >
-                                <Button>
-                                    <Icon type="upload" /> Upload
-                                </Button>
-                            </Upload>
+                                <p className="ant-upload-drag-icon">
+                                    <Icon type="inbox" />
+                                </p>
+                                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                            </Upload.Dragger>
                         </Col>
-                    </Row>
-                    <Row style={{ marginTop: '1em' }}>
-
                     </Row>
                 </Card>
             </div>
