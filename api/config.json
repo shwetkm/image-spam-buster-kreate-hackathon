@@ -1,0 +1,10 @@
+{
+	"high_probability_known_bad_words":["paytm","pay","money","wallet","cashback","free","amount","received","balance","पेटीएम","कैशबैक"],
+	"medium_probability_known_bad_words":["payment","scratch","congratulations","win","reward","पैसा","वॉलिट","rupee","dollar","bonus"],
+	"low_probability_known_bad_words":["recharge","चार्ज","मनी","स्क्रैच","स्क्रेच"],
+	"high_probability_symbols":["$","rs"],
+	"high_probability_weight":1,
+	"medium_probability_weight":0.5,
+	"low_probability_weight":0.3,
+	"threshold":80
+}
