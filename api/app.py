@@ -16,7 +16,7 @@ app.secret_key = 'You will never guess'
 def allowed_file(filename):
 	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS	
 
-@app.route('/image_upload', methods=['POST'])
+@app.route('/api/image_upload', methods=['POST'])
 def upload_file():
 	if request.method == 'POST':
 		# check if the post request has the file part
@@ -36,6 +36,11 @@ def upload_file():
 		else:
 			flash('Allowed file types are png, jpg, jpeg')
 			return redirect(request.url)
+
+@app.route('/api/health', methods=['GET'])
+def health():
+	if request.method == 'GET':
+		return True
 
 	
 
