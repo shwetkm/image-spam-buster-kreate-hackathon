@@ -1,5 +1,6 @@
 export const routes = {
     rootPage: '/',
+    wall: '/wall',
 };
 
 export const intlJsonsMap = {

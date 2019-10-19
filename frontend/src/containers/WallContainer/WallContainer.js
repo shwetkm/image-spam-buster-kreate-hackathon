@@ -1,4 +1,5 @@
 import React from 'react';
+import { Upload, Button, Icon } from 'antd';
 
 class WallContainer extends React.PureComponent {
     constructor(props) {
@@ -10,7 +11,15 @@ class WallContainer extends React.PureComponent {
     }
 
     render() {
-        return <React.Fragment />;
+        return (
+            <Upload
+                listType="picture"
+            >
+                <Button>
+                    <Icon type="upload" /> Upload
+                </Button>
+            </Upload>
+        );
     }
 }
 

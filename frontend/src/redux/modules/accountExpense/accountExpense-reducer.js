@@ -1,6 +1,3 @@
-/**
- * Created by vinay on 19/12/18.
- */
 import initialStates from '../../initialStates';
 import { CLEAR_SELECTED_ACCOUNT_EXPENSE, FETCH_ACCOUNT_EXPENSE_SUCCESS } from './accountExpense-actions';
 
