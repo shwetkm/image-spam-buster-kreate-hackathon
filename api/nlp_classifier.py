@@ -12,13 +12,13 @@ class NLP_classifier(object):
         self.scaler = {}
         for col in cont_cols:
             # print(col)
-            with open('models/'+col+'.pkl', 'rb') as fid:
+            with open('data/models/'+col+'.pkl', 'rb') as fid:
                 self.scaler[col] = pickle.load(fid)
-        with open('models/'+'tfidf.pkl', 'rb') as fid:
+        with open('data/models/'+'tfidf.pkl', 'rb') as fid:
             self.tfidf_vect = pickle.load(fid)
-        with open('models/'+'label_encode.pkl', 'rb') as fid:
+        with open('data/models/'+'label_encode.pkl', 'rb') as fid:
             self.encoder = pickle.load(fid)
-        with open('models/'+'clf.pkl', 'rb') as fid:
+        with open('data/models/'+'clf.pkl', 'rb') as fid:
             self.classifier = pickle.load(fid)
 
     def text_cleaning(self,txt):
