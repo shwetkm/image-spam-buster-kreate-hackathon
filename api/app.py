@@ -6,7 +6,7 @@ from flask import Flask, flash, request, redirect, render_template,jsonify
 from werkzeug.utils import secure_filename
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-UPLOAD_FOLDER = "C:\\Users\\srivav3\\kreate-hackathon-mall91\\api\\uploads\\"
+UPLOAD_FOLDER = '/Users/vinay/workStuff/repo/kreate-hackathon-mall91/api/uploads'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

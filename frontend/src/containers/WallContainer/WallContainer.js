@@ -70,7 +70,7 @@ class WallContainer extends React.PureComponent {
                                 listType="picture"
                                 name="file"
                                 multiple
-                                action=""
+                                action="/api/image_upload"
                                 onChange={this.onChangeFile}
                             >
                                 <p className="ant-upload-drag-icon">
