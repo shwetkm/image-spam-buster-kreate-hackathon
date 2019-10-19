@@ -16,7 +16,7 @@
     "css-loader": "0.28.7",
     "deep-equal": "^1.0.1",
     "dotenv": "4.0.0",
-    "eslint": "4.10.0",
+    "eslint": "4.18.2",
     "extract-text-webpack-plugin": "3.0.2",
     "lodash.find": "^4.6.0",
     "lodash.get": "^4.4.2",
