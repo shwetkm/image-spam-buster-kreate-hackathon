@@ -1,0 +1,14 @@
+.menuItem {
+    color: #ffffff;
+    font-size: 1em;
+    text-align: left;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 38px;
+    left: 25px;
+    height: 100%;
+    width: 2px;
+    background: white;
+}
