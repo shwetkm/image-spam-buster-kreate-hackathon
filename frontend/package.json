@@ -21,6 +21,7 @@
     "redux": "^4.0.4",
     "redux-saga": "^1.1.1"
   },
+  "homepage": "http://192.168.56.102/spambuster",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

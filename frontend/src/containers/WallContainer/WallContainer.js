@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { Upload, Icon, Row, Col, Card, message } from 'antd';
+import { Icon, Row, Col, Card, message, Upload, List, Progress } from 'antd';
+import { formatBytes, isObjectValidAndNotEmpty } from '../../constants/CommonUtil';
 
 class WallContainer extends React.PureComponent {
     constructor(props) {
@@ -9,6 +10,7 @@ class WallContainer extends React.PureComponent {
             url: '',
             loading: false,
             file: null,
+            files: [],
         };
     }
 
@@ -42,22 +44,54 @@ class WallContainer extends React.PureComponent {
 
     onChangeFile = (info) => {
         const { status } = info.file;
-        if (status !== 'uploading') {
-            this.setState({ loading: true });
+        console.log('downloading status', info);
+        if (status === 'uploading') {
+            this.setState({
+                loading: true,
+                files: info.fileList,
+            });
+        } else {
+            this.setState({
+                loading: false,
+                files: info.fileList,
+            });
         }
         if (status === 'done') {
-            this.setState({ loading: false });
             message.success(`${info.file.name} file uploaded successfully.`);
         } else if (status === 'error') {
-            this.setState({ loading: false });
             message.error(`${info.file.name} file upload failed.`);
         }
+    };
+
+    getUploadStatus = (item) => {
+        const { status, percent } = item;
+        if (status === 'done') {
+            return <span style={{ color: '#17b608' }}>Successfully uploaded</span>;
+        } else if (status === 'error') {
+            return <span style={{ color: 'red' }}>Failed !</span>;
+        } else if (status === 'uploading') {
+            return <span><Progress percent={percent} /></span>;
+        }
+        return '';
+    };
+
+    getContent = (item) => {
+        if (item.status === 'done' && isObjectValidAndNotEmpty(item.response)) {
+            const { score, predicted } = item.response;
+            return (
+                <Row>
+                    <Col span={12}>Spam:&nbsp; {predicted}</Col>
+                    <Col span={12}>Score:&nbsp; {score}</Col>
+                </Row>
+            );
+        }
+        return '';
     };
 
     render() {
         const {
             url,
-            file,
+            files,
             loading,
         } = this.state;
         console.log('state', this.state);
@@ -65,11 +99,11 @@ class WallContainer extends React.PureComponent {
             <div style={{ padding: '5em' }}>
                 <Card>
                     <Row>
-                        <Col span={10}>
+                        <Col span={24}>
                             <Upload.Dragger
-                                listType="picture"
+                                accept=".jpg, .jpeg, .png"
+                                listType="picture-card"
                                 name="file"
-                                multiple
                                 action="/api/image_upload"
                                 onChange={this.onChangeFile}
                             >
@@ -78,6 +112,51 @@ class WallContainer extends React.PureComponent {
                                 </p>
                                 <p className="ant-upload-text">Click or drag file to this area to upload</p>
                             </Upload.Dragger>
+                        </Col>
+                    </Row>
+                </Card>
+                <Card>
+                    <Row>
+                        <Col span={24}>
+                            <List
+                                itemLayout="vertical"
+                                size="large"
+                                dataSource={files}
+                                renderItem={item => (
+                                    <List.Item
+                                        key={item.uid}
+                                        extra={
+                                            <img
+                                                width={272}
+                                                alt="logo"
+                                                src={item.thumbUrl}
+                                            />
+                                        }
+                                    >
+                                        <List.Item.Meta
+                                            title={
+                                                <Row
+                                                    justify="space-between"
+                                                >
+                                                    <Col span={10}>{item.name}</Col>
+                                                    <Col span={14} style={{ align: 'right' }}>
+                                                        {
+                                                            this.getUploadStatus(item)
+                                                        }
+                                                    </Col>
+                                                </Row>
+                                            }
+                                            description={
+                                                <div>
+                                                    <div>Size:&nbsp; {formatBytes(item.size, 2)}</div>
+                                                </div>
+                                            }
+                                        >
+                                            {this.getContent(item)}
+                                        </List.Item.Meta>
+                                    </List.Item>
+                                )}
+                            />
                         </Col>
                     </Row>
                 </Card>

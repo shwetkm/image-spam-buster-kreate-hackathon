@@ -1,11 +1,29 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Col, Icon, Layout, Menu, Row } from 'antd';
+import { getStringFromObject } from '../constants/CommonUtil';
+import { routes } from '../constants/constants';
 
 const { Header, Content, Sider } = Layout;
 
 class AppContainer extends React.Component {
   handleClickMenuItem = ({ key }) => {
     this.props.history.push(key);
+  };
+
+  getActiveItem = () => {
+    const {
+      location,
+    } = this.props;
+    const url = getStringFromObject('pathname', location);
+    if (url.startsWith(routes.analytics)) {
+      return routes.analytics;
+    } else if (url.startsWith(routes.setting)) {
+      return routes.setting;
+    } else if (url.startsWith(routes.history)) {
+      return routes.history;
+    }
+    return routes.home;
   };
 
   render() {
@@ -16,6 +34,7 @@ class AppContainer extends React.Component {
     const childrenWithProps = React.Children.map(children, child =>
         child && React.cloneElement(child, otherProps),
     );
+    console.log('AppContainer', this.getActiveItem());
     return (
         <Layout>
           <Header>
@@ -33,23 +52,25 @@ class AppContainer extends React.Component {
             <Layout>
               <Sider collapsed={false} style={{ height: '100vh' }}>
                 <Menu
+                    selectable
                     theme="dark"
                     mode="inline"
+                    selectedKeys={[this.getActiveItem()]}
                     onClick={this.handleClickMenuItem}
                 >
-                  <Menu.Item key="/home">
+                  <Menu.Item key={routes.home}>
                     <Icon type="cloud-upload" />
                     <span>Upload Image</span>
                   </Menu.Item>
-                  <Menu.Item key="/history">
+                  <Menu.Item key={routes.history}>
                     <Icon type="history" />
                     <span>History</span>
                   </Menu.Item>
-                  <Menu.Item key="/analytics">
+                  <Menu.Item key={routes.analytics}>
                     <Icon type="pie-chart" />
                     <span>Analytics</span>
                   </Menu.Item>
-                  <Menu.Item key="/setting">
+                  <Menu.Item key={routes.setting}>
                     <Icon type="setting" />
                     <span>Setting</span>
                   </Menu.Item>
@@ -64,5 +85,10 @@ class AppContainer extends React.Component {
     );
   }
 }
+
+AppContainer.propTypes = {
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
+};
 
 export default AppContainer;
