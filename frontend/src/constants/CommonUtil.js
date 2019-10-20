@@ -1,7 +1,15 @@
 import getProperty from 'lodash.get';
 import find from 'lodash.find';
+import sortBy from 'lodash.sortby';
 
 export const isArrayValidAndNotEmpty = anArray => anArray && Array.isArray(anArray) && anArray.length > 0;
+
+export const sortArrayBy = (arr, property) => {
+    if (isArrayValidAndNotEmpty(arr)) {
+        return sortBy(arr, item => getStringFromObject(property, item));
+    }
+    return [];
+};
 
 export const getStringFromObject = (string, obj, defaultValue = '') => {
     const value = getProperty(obj, string, defaultValue);

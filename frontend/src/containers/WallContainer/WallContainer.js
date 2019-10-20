@@ -2,7 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Card, Col, Icon, List, message, Progress, Row, Select, Upload } from 'antd';
-import { formatBytes, getStringForBoolean, getStringFromObject } from '../../constants/CommonUtil';
+import {
+    formatBytes,
+    getStringForBoolean,
+    getStringFromObject,
+    isArrayValidAndNotEmpty, sortArrayBy,
+} from '../../constants/CommonUtil';
 import { AI_MODEL_CLASSIFIERS, applicationContextProps } from '../../constants/constants';
 
 class WallContainer extends React.PureComponent {
@@ -119,9 +124,13 @@ class WallContainer extends React.PureComponent {
         if (selectedClassifier) {
             api = `${api}?model=${selectedClassifier}`;
         }
+        let sortedFiles = sortArrayBy(files, 'uid').reverse();
+        // if (isArrayValidAndNotEmpty(files)) {
+        //     sortedFiles = files.sort((a, b) => b.uid < a.uid);
+        // }
         return (
             <div
-                style={{ padding: '5em' }}
+                style={{ padding: '2em' }}
             >
                 <Card>
                     <Row>
@@ -163,7 +172,7 @@ class WallContainer extends React.PureComponent {
                             <List
                                 itemLayout="vertical"
                                 size="large"
-                                dataSource={files}
+                                dataSource={sortedFiles}
                                 renderItem={item => (
                                     <List.Item
                                         key={item.uid}
