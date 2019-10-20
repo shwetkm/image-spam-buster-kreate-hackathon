@@ -2,10 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Col, Icon, Layout, Menu, Row } from 'antd';
 import { getStringFromObject } from '../constants/CommonUtil';
+import { addLocaleData } from 'react-intl';
+import localeEn from 'react-intl/locale-data/en';
 import { routes } from '../constants/constants';
+import getIntlFormattedMessage from '../component/IntlFormattedMessage';
+import messages from '../constants/messages';
 
 const { Header, Content, Sider } = Layout;
-
+addLocaleData([...localeEn]);
 class AppContainer extends React.Component {
   handleClickMenuItem = ({ key }) => {
     this.props.history.push(key);
@@ -50,7 +54,7 @@ class AppContainer extends React.Component {
           </Header>
           <Content>
             <Layout>
-              <Sider collapsed={false} style={{ height: '100vh' }}>
+              <Sider collapsed={false} style={{ maxHeight: '100vh' }}>
                 <Menu
                     selectable
                     theme="dark"
@@ -60,7 +64,7 @@ class AppContainer extends React.Component {
                 >
                   <Menu.Item key={routes.home}>
                     <Icon type="cloud-upload" />
-                    <span>Upload Image</span>
+                    <span>{getIntlFormattedMessage(messages.sidebarUploadDocument)}</span>
                   </Menu.Item>
                   <Menu.Item key={routes.history}>
                     <Icon type="history" />
@@ -76,7 +80,7 @@ class AppContainer extends React.Component {
                   </Menu.Item>
                 </Menu>
               </Sider>
-              <Content>
+              <Content style={{ maxHeight: '100vh' }}>
                 {childrenWithProps}
               </Content>
             </Layout>

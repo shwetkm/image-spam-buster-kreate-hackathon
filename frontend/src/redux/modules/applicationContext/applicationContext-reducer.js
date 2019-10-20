@@ -11,6 +11,7 @@ const applicationContextReducer = (state = initialStates.applicationContext, act
     default:
         newState = state;
     }
+    console.log('new state', action, newState);
     return newState;
 };
 

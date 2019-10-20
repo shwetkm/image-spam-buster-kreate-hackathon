@@ -1,6 +1,6 @@
 const initialStates = {
     applicationContext: {
-        language: 'en',
+        language: 'hi',
     },
 };
 

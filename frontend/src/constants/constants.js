@@ -7,10 +7,12 @@ export const routes = {
 };
 
 export const intlJsonsMap = {
-    en: 'en.json',
+    en: 'locales/en.json',
+    hi: 'locales/hi.json',
 };
 
 export const applicationContextProps = {
     LEARNING_MODEL: 'learningModel',
     LANGUAGE: 'language',
+    LOCALES: 'locales',
 };

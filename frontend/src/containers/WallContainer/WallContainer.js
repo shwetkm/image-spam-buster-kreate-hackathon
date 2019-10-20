@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Icon, Row, Col, Card, message, Upload, List, Progress } from 'antd';
-import { formatBytes, isObjectValidAndNotEmpty } from '../../constants/CommonUtil';
+import { formatBytes, getStringForBoolean, isObjectValidAndNotEmpty } from '../../constants/CommonUtil';
 
 class WallContainer extends React.PureComponent {
     constructor(props) {
@@ -9,7 +9,6 @@ class WallContainer extends React.PureComponent {
         this.state = {
             url: '',
             loading: false,
-            file: null,
             files: [],
         };
     }
@@ -80,7 +79,7 @@ class WallContainer extends React.PureComponent {
             const { score, predicted } = item.response;
             return (
                 <Row>
-                    <Col span={12}>Spam:&nbsp; {predicted}</Col>
+                    <Col span={12}>Spam:&nbsp; {getStringForBoolean(predicted)}</Col>
                     <Col span={12}>Score:&nbsp; {score}</Col>
                 </Row>
             );
@@ -90,13 +89,13 @@ class WallContainer extends React.PureComponent {
 
     render() {
         const {
-            url,
             files,
-            loading,
         } = this.state;
         console.log('state', this.state);
         return (
-            <div style={{ padding: '5em' }}>
+            <div
+                style={{ padding: '5em' }}
+            >
                 <Card>
                     <Row>
                         <Col span={24}>
