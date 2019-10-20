@@ -13,7 +13,11 @@ class Image_Classifier(object):
 
     def evaluate_image(self,img):
         pred_class, pred_idx, outputs = self.learn.predict(img)
-        return {'prediction':pred_class,'score':outputs.data[1].tolist()}
+        score = outputs.data[1].tolist()
+        if 'spam' in str(pred_class):
+            return {'predicted':True,'score':outputs.data[1].tolist()}
+        else:
+            return {'predicted':False,'score':outputs.data[1].tolist()}
     
 if __name__ == '__main__':
     img = open_image('uploads/Capture.PNG')

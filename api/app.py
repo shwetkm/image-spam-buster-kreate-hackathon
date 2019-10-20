@@ -13,7 +13,7 @@ from image_classifier import Image_Classifier
 from heuristic_spam_classifier import HeuristicSpamClassifier
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-UPLOAD_FOLDER = '/Users/vinay/workStuff/repo/kreate-hackathon-mall91/api/uploads'
+UPLOAD_FOLDER = '/opt/kreate-hackathon-mall91/api/uploads'
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -61,6 +61,18 @@ def upload_file():
 					elif model_name == 'text_classifier':
 						nlp = NLP_classifier()
 						return jsonify(nlp.predict_class(txt))
+					else:
+						img = open_image(app.config['UPLOAD_FOLDER']+'/'+filename)
+						img_class = Image_Classifier()
+						image_op = img_class.evaluate_image(img)
+						heuristic_spam_classifier_obj = HeuristicSpamClassifier()
+						heuristic_op = heuristic_spam_classifier_obj.classify(txt)
+						nlp = NLP_classifier()
+						nlp_op = nlp.predict_class(txt)
+						final = {}
+						final['predicted'] = image_op['predicted'] or heuristic_op['predicted'] or nlp_op['predicted']
+						final['score'] = (image_op['score'] + heuristic_op['score'] + nlp_op['score'])/3.0
+						return jsonify(final)
 		else:
 			flash('Allowed file types are png, jpg, jpeg')
 			return redirect(request.url)

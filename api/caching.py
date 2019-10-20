@@ -14,8 +14,8 @@ class Hashing(object):
         hash_value = imagehash.average_hash(Image.open(path))
         return hash_value
 
-    def cacher(self,path):
-        h_value = str(self.calculate_hash(path))
+    def cacher(self,model_name,path):
+        h_value = str(self.calculate_hash(path)) + model_name
         if self.r.exists(h_value):
             return self.r[h_value],h_value
         else:
@@ -27,7 +27,7 @@ class Hashing(object):
 
 if __name__ == "__main__":
     caching_obj = Hashing()
-    status,h_value = caching_obj.cacher("./uploads/Capture.PNG")
+    status,h_value = caching_obj.cacher("image classifier","./uploads/Capture.PNG")
     print(caching_obj.r.get(h_value))
-    #status = caching_obj.set_redis_store_value(h_value,"{'predicted':'True','score':0.87}")
-    #print(caching_obj.r.get(h_value))
+    status = caching_obj.set_redis_store_value(h_value,"{'predicted':'True','score':0.87}")
+    print(caching_obj.r.get(h_value))
