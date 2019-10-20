@@ -3,7 +3,7 @@ import { applicationContextProps } from '../constants/constants';
 const initialStates = {
     applicationContext: {
         [applicationContextProps.LANGUAGE]: 'hi',
-        [applicationContextProps.LEARNING_MODEL]: 'heuristic_classifier',
+        [applicationContextProps.LEARNING_MODEL]: 'image_classifier',
         [applicationContextProps.LOCALES]: [],
     },
 };

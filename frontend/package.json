@@ -9,6 +9,7 @@
     "history": "^4.10.1",
     "lodash.sortby": "4.7.0",
     "http-proxy-middleware": "^0.20.0",
+    "lodash.get": "^4.4.2",
     "lodash.find": "^4.6.0",
     "prop-types": "^15.7.2",
     "react": "^16.10.2",
@@ -46,6 +47,5 @@
     ]
   },
   "devDependencies": {
-    "lodash.get": "^4.4.2"
   }
 }

@@ -17,8 +17,8 @@ export const applicationContextProps = {
     LOCALES: 'locales',
 };
 export const AI_MODEL_CLASSIFIERS = [
+    { value: 'ensemble_classifier', title: 'Ensemble Classifier' },
+    { value: 'image_classifier', title: 'Image Classifier' },
     { value: 'heuristic_classifier', title: 'Heuristic Classifier' },
     { value: 'text_classifier', title: 'Text Classifier' },
-    { value: 'image_classifier', title: 'Image Classifier' },
-    { value: 'ensemble_classifier', title: 'Ensemble Classifier' },
 ];
