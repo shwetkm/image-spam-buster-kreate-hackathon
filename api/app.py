@@ -4,6 +4,13 @@ import urllib.request
 # from app import app
 from flask import Flask, flash, request, redirect, render_template,jsonify
 from werkzeug.utils import secure_filename
+from fastai import *
+from fastai.vision import *
+from caching import Hashing
+from basic_ocr import BasicOCR
+from nlp_classifier import NLP_classifier
+from image_classifier import Image_Classifier
+from heuristic_spam_classifier import HeuristicSpamClassifier
 
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 UPLOAD_FOLDER = '/Users/vinay/workStuff/repo/kreate-hackathon-mall91/api/uploads'
@@ -28,11 +35,32 @@ def upload_file():
 			flash('No file selected for uploading')
 			return jsonify({request.url:'No file selected for uploading'})
 		if file and allowed_file(file.filename):
+			if 'model' in request.args:
+				model_name = request.args.get('model')
+			else:
+				model_name = 'heuristic_classifier'
+			
 			filename = secure_filename(file.filename)
 			print("filename")
 			file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-			flash('File successfully uploaded')
-			return jsonify({request.url:'File successfully uploaded'})
+			caching_obj = Hashing()
+			status,h_value = caching_obj.cacher(model_name,app.config['UPLOAD_FOLDER']+'/'+filename)
+			if status:
+				return jsonify(status)
+			else:
+				if model_name == 'image_classifier':
+					img = open_image(app.config['UPLOAD_FOLDER']+'/'+filename)
+					img_class = Image_Classifier()
+					return jsonify(img_class.evaluate_image(img))
+				else:
+					obj = BasicOCR()
+					txt = obj.extract_text_from_image(app.config['UPLOAD_FOLDER']+'/'+filename)
+					if model_name == 'heuristic_classifier':
+						heuristic_spam_classifier_obj = HeuristicSpamClassifier()
+						return jsonify(heuristic_spam_classifier_obj.classify(txt))
+					elif model_name == 'text_classifier':
+						nlp = NLP_classifier()
+						return jsonify(nlp.predict_class(txt))
 		else:
 			flash('Allowed file types are png, jpg, jpeg')
 			return redirect(request.url)
