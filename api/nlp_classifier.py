@@ -54,7 +54,8 @@ class NLP_classifier(object):
                                     'ccs_title_word_count',
                                     'ccs_upper_case_word_count'])
         final_x = hstack([x_tfidf,csr_matrix(x_df.loc[x_df.index,])], 'csr')
-        return (self.encoder.inverse_transform(self.classifier.predict(final_x)))[0]
+        prob = self.classifier.predict_proba(final_x)
+        return {'predicted':(self.encoder.inverse_transform(self.classifier.predict(final_x)))[0],'score':prob.max()}
 
 if __name__ == '__main__':
     nlp = NLP_classifier()

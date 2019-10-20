@@ -15,8 +15,19 @@ class Hashing(object):
         return hash_value
 
     def cacher(self,path):
-        h_value = self.calculate_hash(path)
+        h_value = str(self.calculate_hash(path))
         if self.r.exists(h_value):
-            return(self.r[h_value])
+            return self.r[h_value],h_value
         else:
-            return False
+            return False,h_value
+
+    def set_redis_store_value(self,h_value,store_json):
+        status = self.r.set(h_value,store_json)
+        return status
+
+if __name__ == "__main__":
+    caching_obj = Hashing()
+    status,h_value = caching_obj.cacher("./uploads/Capture.PNG")
+    print(caching_obj.r.get(h_value))
+    #status = caching_obj.set_redis_store_value(h_value,"{'predicted':'True','score':0.87}")
+    #print(caching_obj.r.get(h_value))
