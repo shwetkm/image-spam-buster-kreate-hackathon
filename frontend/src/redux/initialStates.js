@@ -1,6 +1,10 @@
+import { applicationContextProps } from '../constants/constants';
+
 const initialStates = {
     applicationContext: {
-        language: 'hi',
+        [applicationContextProps.LANGUAGE]: 'hi',
+        [applicationContextProps.LEARNING_MODEL]: 'image_classifier',
+        [applicationContextProps.LOCALES]: [],
     },
 };
 

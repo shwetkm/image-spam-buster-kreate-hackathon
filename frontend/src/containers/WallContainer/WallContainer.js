@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import { Icon, Row, Col, Card, message, Upload, List, Progress } from 'antd';
-import { formatBytes, getStringForBoolean, isObjectValidAndNotEmpty } from '../../constants/CommonUtil';
+import { connect } from 'react-redux';
+import { Card, Col, Icon, List, message, Progress, Row, Select, Upload } from 'antd';
+import { formatBytes, getStringForBoolean, getStringFromObject } from '../../constants/CommonUtil';
+import { AI_MODEL_CLASSIFIERS, applicationContextProps } from '../../constants/constants';
 
 class WallContainer extends React.PureComponent {
     constructor(props) {
@@ -10,11 +12,22 @@ class WallContainer extends React.PureComponent {
             url: '',
             loading: false,
             files: [],
+            selectedClassifier: props.classifier,
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.classifier !== prevProps.classifier) {
+            this.setState({ selectedClassifier: this.props.classifier });
+        }
     }
 
     handleChangeUrl = (e) => {
         this.setState({ url: e.target.value });
+    };
+
+    onChangeClassifier = (value) => {
+        this.setState({ selectedClassifier: value });
     };
 
     handleDownloadClick = () => {
@@ -75,13 +88,22 @@ class WallContainer extends React.PureComponent {
     };
 
     getContent = (item) => {
-        if (item.status === 'done' && isObjectValidAndNotEmpty(item.response)) {
-            const { score, predicted } = item.response;
+        console.log('ankit', item);
+        if (item.status === 'done') {
+            const score = getStringFromObject('response.score', item);
+            const predicted = getStringFromObject('response.predicted', item);
             return (
-                <Row>
-                    <Col span={12}>Spam:&nbsp; {getStringForBoolean(predicted)}</Col>
-                    <Col span={12}>Score:&nbsp; {score}</Col>
-                </Row>
+                <React.Fragment>
+                    <Row>
+                        <Col span={12}><h3>Size:&nbsp; {formatBytes(item.size, 2)}</h3></Col>
+                    </Row>
+                    <Row style={{ marginTop: '1em' }}>
+                        <Col span={12}><h3>Spam:&nbsp; {getStringForBoolean(predicted)}</h3></Col>
+                    </Row>
+                    <Row style={{ marginTop: '1em' }}>
+                        <Col span={12}><h3>Score:&nbsp; {score}</h3></Col>
+                    </Row>
+                </React.Fragment>
             );
         }
         return '';
@@ -90,20 +112,41 @@ class WallContainer extends React.PureComponent {
     render() {
         const {
             files,
+            selectedClassifier,
         } = this.state;
         console.log('state', this.state);
+        let api = '/api/image_upload';
+        if (selectedClassifier) {
+            api = `${api}?model=${selectedClassifier}`;
+        }
         return (
             <div
                 style={{ padding: '5em' }}
             >
                 <Card>
                     <Row>
+                        <Col span={3}>Select AI Learning Model: </Col>
+                        <Col span={10}>
+                            <Select
+                                value={selectedClassifier}
+                                onChange={this.onChangeClassifier}
+                                style={{ width: '100%' }}
+                            >
+                                {
+                                    AI_MODEL_CLASSIFIERS.map((option) => (
+                                        <Select.Option key={option.value} value={option.value} title={option.title}>{option.title}</Select.Option>
+                                    ))
+                                }
+                            </Select>
+                        </Col>
+                    </Row>
+                    <Row style={{ marginTop: '1em' }}>
                         <Col span={24}>
                             <Upload.Dragger
                                 accept=".jpg, .jpeg, .png"
                                 listType="picture-card"
                                 name="file"
-                                action="/api/image_upload"
+                                action={api}
                                 onChange={this.onChangeFile}
                             >
                                 <p className="ant-upload-drag-icon">
@@ -137,7 +180,7 @@ class WallContainer extends React.PureComponent {
                                                 <Row
                                                     justify="space-between"
                                                 >
-                                                    <Col span={10}>{item.name}</Col>
+                                                    <Col span={10}><h2>{item.name}</h2></Col>
                                                     <Col span={14} style={{ align: 'right' }}>
                                                         {
                                                             this.getUploadStatus(item)
@@ -146,13 +189,9 @@ class WallContainer extends React.PureComponent {
                                                 </Row>
                                             }
                                             description={
-                                                <div>
-                                                    <div>Size:&nbsp; {formatBytes(item.size, 2)}</div>
-                                                </div>
+                                                this.getContent(item)
                                             }
-                                        >
-                                            {this.getContent(item)}
-                                        </List.Item.Meta>
+                                        />
                                     </List.Item>
                                 )}
                             />
@@ -164,4 +203,8 @@ class WallContainer extends React.PureComponent {
     }
 }
 
-export default WallContainer;
+const mapStateToProps = state => ({
+    classifier: getStringFromObject(applicationContextProps.LEARNING_MODEL, state.applicationContext),
+});
+
+export default connect(mapStateToProps)(WallContainer);

@@ -54,7 +54,7 @@ class AppContainer extends React.Component {
           </Header>
           <Content>
             <Layout>
-              <Sider collapsed={false} style={{ maxHeight: '100vh' }}>
+              <Sider collapsed={false} style={{ maxHeight: '100vh', height: '100vh' }}>
                 <Menu
                     selectable
                     theme="dark"
