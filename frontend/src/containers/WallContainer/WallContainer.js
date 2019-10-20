@@ -6,7 +6,7 @@ import {
     formatBytes,
     getStringForBoolean,
     getStringFromObject,
-    isArrayValidAndNotEmpty, sortArrayBy,
+    isArrayValidAndNotEmpty, NumberOf, sortArrayBy,
 } from '../../constants/CommonUtil';
 import { AI_MODEL_CLASSIFIERS, applicationContextProps } from '../../constants/constants';
 
@@ -95,7 +95,7 @@ class WallContainer extends React.PureComponent {
     getContent = (item) => {
         console.log('ankit', item);
         if (item.status === 'done') {
-            const score = getStringFromObject('response.score', item);
+            const score = NumberOf(getStringFromObject('response.score', item)) * 100;
             const predicted = getStringFromObject('response.predicted', item);
             return (
                 <React.Fragment>
@@ -106,7 +106,7 @@ class WallContainer extends React.PureComponent {
                         <Col span={12}><h3>Spam:&nbsp; {getStringForBoolean(predicted)}</h3></Col>
                     </Row>
                     <Row style={{ marginTop: '1em' }}>
-                        <Col span={12}><h3>Score:&nbsp; {score}</h3></Col>
+                        <Col span={12}><h3>Score:&nbsp; {score.toFixed(2)} %</h3></Col>
                     </Row>
                 </React.Fragment>
             );
