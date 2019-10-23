@@ -14,3 +14,6 @@ too much text or contains any objectionable text."
 ## App Demo
 ![Alt Text](https://raw.githubusercontent.com/shwetkm/image-spam-buster-kreate-hackathon/master/app_demo.gif)
 
+## Design Overview
+![Alt Text](https://raw.githubusercontent.com/shwetkm/image-spam-buster-kreate-hackathon/master/design_overview.jpg)
+
