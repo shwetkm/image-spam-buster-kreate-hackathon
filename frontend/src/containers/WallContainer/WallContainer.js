@@ -1,13 +1,14 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import sortBy from 'lodash.sortby';
 import { Card, Col, Icon, List, message, Progress, Row, Select, Upload } from 'antd';
 import {
     formatBytes,
     getStringForBoolean,
     getStringFromObject,
+    isArrayValidAndNotEmpty,
     NumberOf,
-    sortArrayBy,
 } from '../../constants/CommonUtil';
 import { AI_MODEL_CLASSIFIERS, applicationContextProps } from '../../constants/constants';
 import getIntlFormattedMessage from '../../component/IntlFormattedMessage';
@@ -117,6 +118,16 @@ class WallContainer extends React.PureComponent {
         return '';
     };
 
+    sortArrayBy = (arr) => {
+        if (isArrayValidAndNotEmpty(arr)) {
+            return sortBy(arr, (item) => {
+                const split = getStringFromObject('uid', item).split('-');
+                return NumberOf('' + split[2] + split[3]);
+            }).reverse();
+        }
+        return [];
+    };
+
     render() {
         const {
             files,
@@ -127,7 +138,7 @@ class WallContainer extends React.PureComponent {
         if (selectedClassifier) {
             api = `${api}?model=${selectedClassifier}`;
         }
-        let sortedFiles = sortArrayBy(files, 'uid').reverse();
+        let sortedFiles = this.sortArrayBy(files);
         // if (isArrayValidAndNotEmpty(files)) {
         //     sortedFiles = files.sort((a, b) => b.uid < a.uid);
         // }
