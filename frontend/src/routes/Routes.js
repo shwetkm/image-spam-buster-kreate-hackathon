@@ -7,10 +7,14 @@ import { Route, Switch, withRouter } from 'react-router';
 import LandingPage from '../page/LandingPage';
 import { applicationContextProps, intlJsonsMap, routes } from '../constants/constants';
 import SettingPage from '../page/SettingPage';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider, addLocaleData } from 'react-intl';
+import enLocaleData from 'react-intl/locale-data/en';
+import hiLocaleData from 'react-intl/locale-data/hi';
 import { getStringFromObject } from '../constants/CommonUtil';
 import { updateApplicationContextAction } from '../redux/modules/applicationContext/applicatioContext-actions';
 
+addLocaleData(enLocaleData);
+addLocaleData(hiLocaleData);
 class Routes extends React.Component {
     componentDidMount() {
         this.fetchLocalJsons(this.props);

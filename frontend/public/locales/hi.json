@@ -1,3 +1,18 @@
 {
-  "sidebar.uploadDocument": "Upload Documentttt"
+  "sidebar.uploadDocument.label": "तस्वीर अपलोड करें",
+  "sidebar.history.label": "रेकार्ड",
+  "sidebar.analytics.label": "एनालिटिक्स",
+  "sidebar.settings.label": "सेटिंग",
+  "settings.language.label": "भाषा",
+  "settings.selectModel.label": "AI लर्निंग मॉडल का चयन करें",
+  "label.classifier.ensemble": "एनसेम्बल क्लासिफायर",
+  "label.classifier.image": "इमेज क्लासिफायर",
+  "label.classifier.heuristic": "हेयरिस्टिक क्लासिफायर",
+  "label.classifier.text": "टेक्स्ट क्लासिफायर",
+  "input.fileUpload.description": "अपलोड करने के लिए इस क्षेत्र में फ़ाइल पर क्लिक करें या खींचें",
+  "upload.status.success": "सफलतापूर्वक अपलोड किया गया",
+  "upload.status.failed": "अपलोड करने में विफल !",
+  "file.size.label": "साइज",
+  "file.spamStatus.label": "स्पैम",
+  "file.spamScore.label": "स्कोर"
 }

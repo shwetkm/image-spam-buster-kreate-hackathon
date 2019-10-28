@@ -1,3 +1,6 @@
+import getIntlFormattedMessage from '../component/IntlFormattedMessage';
+import messages from './messages';
+
 export const routes = {
     rootPage: '/',
     home: '/home',
@@ -17,8 +20,8 @@ export const applicationContextProps = {
     LOCALES: 'locales',
 };
 export const AI_MODEL_CLASSIFIERS = [
-    { value: 'ensemble_classifier', title: 'Ensemble Classifier' },
-    { value: 'image_classifier', title: 'Image Classifier' },
-    { value: 'heuristic_classifier', title: 'Heuristic Classifier' },
-    { value: 'text_classifier', title: 'Text Classifier' },
+    { value: 'ensemble_classifier', title: getIntlFormattedMessage(messages.ensembleClassifierLabel) },
+    { value: 'image_classifier', title: getIntlFormattedMessage(messages.imageClassifierLabel) },
+    { value: 'heuristic_classifier', title: getIntlFormattedMessage(messages.heuristicClassifierLabel) },
+    { value: 'text_classifier', title: getIntlFormattedMessage(messages.textClassifierLabel) },
 ];

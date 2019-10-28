@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getStringFromObject } from '../../constants/CommonUtil';
 import { AI_MODEL_CLASSIFIERS, applicationContextProps } from '../../constants/constants';
-import { Card, Select, Row, Col } from 'antd';
+import { Card, Col, Row, Select } from 'antd';
 import { updateApplicationContextAction } from '../../redux/modules/applicationContext/applicatioContext-actions';
+import getIntlFormattedMessage from '../../component/IntlFormattedMessage';
+import messages from '../../constants/messages';
 
 
 const getSelectInput = (props) => (
@@ -37,10 +39,11 @@ class SettingContainer extends React.PureComponent {
             language,
             learningModel,
         } = this.props;
+        console.log('vinay intl', getIntlFormattedMessage(messages.settingsLanguageLabel));
         return (
             <Card>
                 <Row>
-                    <Col span={2}>Language:</Col>
+                    <Col span={2}>{getIntlFormattedMessage(messages.settingsLanguageLabel)}:</Col>
                     <Col span={6}>
                         {
                             getSelectInput({
@@ -49,14 +52,14 @@ class SettingContainer extends React.PureComponent {
                                 onChange: this.handleChangeSetting(applicationContextProps.LANGUAGE),
                                 options: [
                                     { value: 'en', title: 'English' },
-                                    { value: 'hi', title: 'Hindi' },
+                                    { value: 'hi', title: 'हिंदी' },
                                 ],
                             })
                         }
                     </Col>
                 </Row>
                 <Row style={{ marginTop: '1em' }}>
-                    <Col span={2}>AI Learning Model:</Col>
+                    <Col span={2}>{getIntlFormattedMessage(messages.settingsSelectModelLabel)}:</Col>
                     <Col span={6}>
                         {
                             getSelectInput({

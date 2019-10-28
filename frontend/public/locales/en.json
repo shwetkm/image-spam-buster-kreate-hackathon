@@ -1,3 +1,18 @@
 {
-  "sidebar.uploadDocument": "Upload Document"
+  "sidebar.uploadDocument.label": "Upload Document",
+  "sidebar.history.label": "History",
+  "sidebar.analytics.label": "Analytics",
+  "sidebar.settings.label": "Settings",
+  "settings.language.label": "Language",
+  "settings.selectModel.label": "Select AI Learning Model",
+  "label.classifier.ensemble": "Ensemble Classifier",
+  "label.classifier.image": "Image Classifier",
+  "label.classifier.heuristic": "Heuristic Classifier",
+  "label.classifier.text": "Text Classifier",
+  "input.fileUpload.description": "Click or drag file to this area to upload",
+  "upload.status.success": "Successfully uploaded",
+  "upload.status.failed": "Failed !",
+  "file.size.label": "Size",
+  "file.spamStatus.label": "Spam",
+  "file.spamScore.label": "Score"
 }

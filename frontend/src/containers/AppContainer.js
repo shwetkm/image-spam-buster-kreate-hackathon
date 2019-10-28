@@ -64,19 +64,19 @@ class AppContainer extends React.Component {
                 >
                   <Menu.Item key={routes.home}>
                     <Icon type="cloud-upload" />
-                    <span>{getIntlFormattedMessage(messages.sidebarUploadDocument)}</span>
+                    <span>{getIntlFormattedMessage(messages.sidebarUploadDocumentLabel)}</span>
                   </Menu.Item>
                   <Menu.Item key={routes.history}>
                     <Icon type="history" />
-                    <span>History</span>
+                    <span>{getIntlFormattedMessage(messages.sidebarHistoryLabel)}</span>
                   </Menu.Item>
                   <Menu.Item key={routes.analytics}>
                     <Icon type="pie-chart" />
-                    <span>Analytics</span>
+                    <span>{getIntlFormattedMessage(messages.sidebarAnalyticsLabel)}</span>
                   </Menu.Item>
                   <Menu.Item key={routes.setting}>
                     <Icon type="setting" />
-                    <span>Setting</span>
+                    <span>{getIntlFormattedMessage(messages.sidebarSettingsLabel)}</span>
                   </Menu.Item>
                 </Menu>
               </Sider>

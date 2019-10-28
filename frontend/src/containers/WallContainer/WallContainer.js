@@ -6,9 +6,12 @@ import {
     formatBytes,
     getStringForBoolean,
     getStringFromObject,
-    isArrayValidAndNotEmpty, NumberOf, sortArrayBy,
+    NumberOf,
+    sortArrayBy,
 } from '../../constants/CommonUtil';
 import { AI_MODEL_CLASSIFIERS, applicationContextProps } from '../../constants/constants';
+import getIntlFormattedMessage from '../../component/IntlFormattedMessage';
+import messages from '../../constants/messages';
 
 class WallContainer extends React.PureComponent {
     constructor(props) {
@@ -83,9 +86,9 @@ class WallContainer extends React.PureComponent {
     getUploadStatus = (item) => {
         const { status, percent } = item;
         if (status === 'done') {
-            return <span style={{ color: '#17b608' }}>Successfully uploaded</span>;
+            return <span style={{ color: '#17b608' }}>{getIntlFormattedMessage(messages.uploadStatusSuccess)}</span>;
         } else if (status === 'error') {
-            return <span style={{ color: 'red' }}>Failed !</span>;
+            return <span style={{ color: 'red' }}>{getIntlFormattedMessage(messages.uploadStatusFailure)}</span>;
         } else if (status === 'uploading') {
             return <span><Progress percent={percent} /></span>;
         }
@@ -100,13 +103,13 @@ class WallContainer extends React.PureComponent {
             return (
                 <React.Fragment>
                     <Row>
-                        <Col span={12}><h3>Size:&nbsp; {formatBytes(item.size, 2)}</h3></Col>
+                        <Col span={12}><h3>{getIntlFormattedMessage(messages.fileSizeLabel)}:&nbsp; {formatBytes(item.size, 2)}</h3></Col>
                     </Row>
                     <Row style={{ marginTop: '1em' }}>
-                        <Col span={12}><h3>Spam:&nbsp; {getStringForBoolean(predicted)}</h3></Col>
+                        <Col span={12}><h3>{getIntlFormattedMessage(messages.fileSpamStatusLabel)}:&nbsp; {getStringForBoolean(predicted)}</h3></Col>
                     </Row>
                     <Row style={{ marginTop: '1em' }}>
-                        <Col span={12}><h3>Score:&nbsp; {score.toFixed(2)} %</h3></Col>
+                        <Col span={12}><h3>{getIntlFormattedMessage(messages.fileSpamScoreLabel)}:&nbsp; {score.toFixed(2)} %</h3></Col>
                     </Row>
                 </React.Fragment>
             );
@@ -134,7 +137,7 @@ class WallContainer extends React.PureComponent {
             >
                 <Card>
                     <Row>
-                        <Col span={3}>Select AI Learning Model: </Col>
+                        <Col span={3}>{getIntlFormattedMessage(messages.settingsSelectModelLabel)}: </Col>
                         <Col span={10}>
                             <Select
                                 value={selectedClassifier}
@@ -161,7 +164,7 @@ class WallContainer extends React.PureComponent {
                                 <p className="ant-upload-drag-icon">
                                     <Icon type="inbox" />
                                 </p>
-                                <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                                <p className="ant-upload-text">{getIntlFormattedMessage(messages.uploadFileDescription)}</p>
                             </Upload.Dragger>
                         </Col>
                     </Row>
