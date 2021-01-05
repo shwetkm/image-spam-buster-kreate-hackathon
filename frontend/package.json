@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^3.24.1",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "babel-plugin-import": "^1.12.2",
     "history": "^4.10.1",
     "lodash.sortby": "4.7.0",
